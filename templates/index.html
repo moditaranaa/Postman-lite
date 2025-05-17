@@ -1,0 +1,84 @@
+<!--
+  This is a simple HTML template for a web application that allows users to send HTTP requests.
+  It includes a form for inputting the API URL, HTTP method, headers, and body, and displays the response.
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Postman Lite</title>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Postman Lite</h1>
+
+    <form id="api-form">
+      <label>API URL:</label>
+      <input type="text" id="url" placeholder="https://jsonplaceholder.typicode.com/posts" required />
+
+      <label>HTTP Method:</label>
+      <select id="method">
+        <option>GET</option>
+        <option>POST</option>
+        <option>PUT</option>
+        <option>DELETE</option>
+        <option>PATCH</option>
+      </select>
+
+      <label>Headers (JSON):</label>
+      <textarea id="headers" placeholder='{"Content-Type": "application/json"}'></textarea>
+
+      <label>Body (JSON):</label>
+      <textarea id="body" placeholder='{"name": "YourName", "message": "This is Postman Lite"}'></textarea>
+
+      <button type="submit">Send Request</button>
+    </form>
+
+    <div class="response">
+      <h2>Response:</h2>
+      <pre id="response-box">Waiting for request...</pre>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById("api-form");
+    const responseBox = document.getElementById("response-box");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const url = document.getElementById("url").value;
+      const method = document.getElementById("method").value;
+      const headersInput = document.getElementById("headers").value;
+      const bodyInput = document.getElementById("body").value;
+
+      let headers = {};
+      let body = null;
+
+      try {
+        if (headersInput.trim()) headers = JSON.parse(headersInput);
+        if (bodyInput.trim()) body = JSON.parse(bodyInput);
+      } catch (err) {
+        responseBox.textContent = "Error: Invalid JSON in headers or body!";
+        return;
+      }
+
+      try {
+        const res = await fetch("/send-request", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ url, method, headers, body })
+        });
+
+        const data = await res.json();
+        responseBox.textContent = JSON.stringify(data, null, 2);
+      } catch (err) {
+        responseBox.textContent = `Request failed: ${err.message}`;
+      }
+    });
+  </script>
+</body>
+</html>

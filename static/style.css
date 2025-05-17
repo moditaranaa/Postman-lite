@@ -1,0 +1,85 @@
+
+
+body {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f2f4f8;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .container {
+    max-width: 800px;
+    margin: 40px auto;
+    background: white;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  }
+  
+  h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #4a4a4a;
+  }
+  
+  form label {
+    font-weight: bold;
+    display: block;
+    margin-top: 20px;
+    margin-bottom: 5px;
+    color: #333;
+  }
+  
+  form input,
+  form textarea,
+  form select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    resize: vertical;
+    font-size: 15px;
+  }
+  
+  form button {
+    margin-top: 25px;
+    width: 100%;
+    background-color: #ff4f8b;
+    color: white;
+    border: none;
+    padding: 14px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  form button:hover {
+    background-color: #e64076;
+  }
+  
+  .response {
+    margin-top: 40px;
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px dashed #ccc;
+  }
+  
+  .response h2 {
+    margin-top: 0;
+    font-size: 20px;
+    color: #444;
+  }
+  
+  #response-box {
+    background: #1e1e1e;
+    color: #dcdcdc;
+    padding: 15px;
+    border-radius: 8px;
+    overflow-x: auto;
+    font-family: "Courier New", Courier, monospace;
+    font-size: 14px;
+    max-height: 400px;
+  }
