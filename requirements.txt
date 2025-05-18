@@ -1,0 +1,13 @@
+fastapi
+pytest-asyncio
+uvicorn
+httpx
+python-dotenv
+jinja2
+pytest
+httpx
+
+
+
+
+

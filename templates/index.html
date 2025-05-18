@@ -40,6 +40,10 @@
     <div class="response">
       <h2>Response:</h2>
       <pre id="response-box">Waiting for request...</pre>
+    
+      <h2 style="margin-top: 30px;">Generated cURL:</h2>
+      <pre id="curl-box" style="background:#f5f5f5; padding: 12px; border-radius: 8px;"></pre>
+      <button onclick="copyCurl()" style="margin-top: 8px;">Copy cURL</button>
     </div>
   </div>
 
@@ -65,7 +69,18 @@
         responseBox.textContent = "Error: Invalid JSON in headers or body!";
         return;
       }
+      // Build the cURL command
+      let curl =`curl -X ${method.toUpperCase()} "${url}"`;
+      for (const key in headers){
+        curl += ` \\\n -H "${key} : ${headers[key]}"`;
+      }
+      if (body){
+        const escapedBody = JSON.stringify(body).replace(/"/g, '\\"');
+        curl += ` \\\n -d "${escapedBody}"`;
+      }
+      document.getElementById("curl-box").textContent = curl;
 
+      // Send the request to the server
       try {
         const res = await fetch("/send-request", {
           method: "POST",
@@ -79,6 +94,24 @@
         responseBox.textContent = `Request failed: ${err.message}`;
       }
     });
+    function copyCurl() {
+      const curlText = document.getElementById("curl-box").textContent;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        // Use the Clipboard API to copy the text
+        navigator.clipboard.writeText(curlText)
+          .then(() => alert("cURL copied to clipboard!"))
+          .catch(err => alert("Failed to copy cURL: " + err));
+      } else {
+        // Fallback for older browsers
+        const textArea = document.createElement("textarea");
+        textArea.value = curlText;
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand("copy");
+        document.body.removeChild(textArea);
+        alert("cURL copied to clipboard!");
+      }
+    }
   </script>
 </body>
 </html>
